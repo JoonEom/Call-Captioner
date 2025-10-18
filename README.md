@@ -1,22 +1,22 @@
 # Call Captioner
 
-A real-time speech transcription app with AI-powered emotion detection. Converts speech to text and analyzes both vocal tone and text sentiment to detect emotions.
+A real-time speech transcription app with AI-powered emotion detection. Converts speech to text and analyzes sentiment using ChatGPT to detect emotions from transcribed text.
 
 ## Features
 
 - **Real-time Transcription**: Uses Web Speech API for live speech-to-text
-- **Pure Audio Emotion Detection**: Detects emotions purely from vocal tone and acoustic features
+- **AI-Powered Emotion Detection**: Uses ChatGPT to analyze sentiment and emotional tone from transcribed text
 - **Modern UI**: Clean, professional interface with real-time captions
-- **Tone-Based Analysis**: Emotion detection based on audio characteristics, not words spoken
-- **Confidence Scores**: Shows confidence levels for emotion detection
+- **Text-Based Analysis**: Emotion detection based on text content and context
+- **Live Updates**: Real-time transcription with interim and final results
+- **Context Awareness**: Maintains conversation context for better emotion detection
 
 ## Tech Stack
 
-- **Frontend**: React + Vite + TailwindCSS
+- **Frontend**: React + Vite + TailwindCSS + Lucide React
 - **Backend**: FastAPI + Python
-- **AI Models**: 
-  - Audio: `superb/hubert-large-superb-er` (Speech Emotion Recognition)
-  - Audio Processing: librosa, torchaudio for feature extraction
+- **AI Integration**: OpenAI GPT API for sentiment analysis
+- **Real-time Communication**: WebSocket for live updates
 
 ## Quick Start
 
@@ -25,6 +25,14 @@ A real-time speech transcription app with AI-powered emotion detection. Converts
 - Python 3.9+
 - Node.js 16+
 - Chrome or Edge browser (for Web Speech API)
+- OpenAI API key
+
+### Environment Setup
+
+1. Create a `.env` file in the backend directory:
+```bash
+OPENAI_API_KEY=your_openai_api_key_here
+```
 
 ### Backend Setup
 
@@ -59,28 +67,18 @@ Frontend will run on `http://localhost:3001` (or next available port)
 ## How It Works
 
 1. **Speech Recognition**: Web Speech API transcribes your speech in real-time
-2. **Audio Recording**: MediaRecorder captures audio for tone analysis
-3. **Audio Feature Extraction**: Extracts MFCCs, chroma, spectral contrast, pitch, energy
-4. **Pure Audio Analysis**: Uses SER model to detect emotions from acoustic features only
-5. **Tone-Based Detection**: Emotion detection based purely on vocal characteristics
+2. **WebSocket Communication**: Real-time communication between frontend and backend
+3. **Text Analysis**: Transcribed text is sent to ChatGPT for sentiment analysis
+4. **Context Awareness**: Maintains conversation context for better emotion detection
+5. **Live Updates**: Shows interim transcription results and final emotion analysis
 
-## Emotion Categories
-
-- **😃 Joy**: Happiness, excitement, positive emotions
-- **😢 Sadness**: Sorrow, melancholy, negative emotions  
-- **😠 Anger**: Frustration, irritation, negative emotions
-- **😨 Fear**: Anxiety, worry, nervousness
-- **😍 Love**: Affection, warmth, positive emotions
-- **😐 Neutral**: No strong emotional indicators
 
 ## Development
 
 ### Backend Endpoints
 
-- `GET /health` - Health check and model status
-- `GET /debug` - Debug information and feature extraction details
-- `POST /test-tone` - Test audio emotion detection with file upload
-- `WebSocket /ws` - Real-time communication
+- `GET /health` - Health check and API status
+- `WebSocket /ws` - Real-time communication for transcription and emotion analysis
 
 ### Project Structure
 
@@ -103,24 +101,25 @@ Call-Captioner/
 ## Troubleshooting
 
 - **No transcription**: Ensure you're using Chrome/Edge and have granted microphone permissions
-- **All emotions show "neutral"**: Check browser console for errors, ensure backend is running
+- **All emotions show "neutral"**: Check browser console for errors, ensure backend is running and OpenAI API key is set
 - **Backend won't start**: Check if port 8000 is already in use, kill existing processes
-- **Models not loading**: Ensure you have internet connection for initial model downloads
+- **OpenAI API errors**: Verify your API key is correct and you have sufficient credits
+- **WebSocket connection issues**: Ensure backend is running before starting frontend
 
-## Testing Tone-Based Detection
+## Testing Emotion Detection
 
 To verify the system works correctly:
 
-1. **Test Case**: Say "I'm so happy" in different tones
-2. **Happy Tone**: Should detect "joy" 
-3. **Sad Tone**: Should detect "sadness" (not "joy")
-4. **Neutral Tone**: Should detect "neutral"
+1. **Test Case**: Say different emotional phrases
+2. **Happy phrases**: "I'm so excited!" should detect "excited" or "happy"
+3. **Sad phrases**: "I'm feeling down" should detect "sad" or "depressed"
+4. **Neutral phrases**: "The weather is nice" should detect "neutral"
 
-This proves the system detects emotions from vocal tone, not words spoken.
+The system analyzes the text content and context to determine emotions.
 
 ## Notes
 
-- First run will download AI models (~1-2GB) - this may take a few minutes
-- Audio emotion detection requires sufficient audio data (at least 1 second)
-- The system uses pure audio analysis - no text-based emotion detection
-- Confidence scores show how certain the model is about the detected emotion
+- Requires a valid OpenAI API key with sufficient credits
+- The system uses text-based emotion detection via ChatGPT
+- Context is maintained throughout the conversation for better accuracy
+- Real-time transcription shows interim results while speaking
