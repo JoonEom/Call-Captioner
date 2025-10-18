@@ -106,17 +106,6 @@ Call-Captioner/
 - **OpenAI API errors**: Verify your API key is correct and you have sufficient credits
 - **WebSocket connection issues**: Ensure backend is running before starting frontend
 
-## Testing Emotion Detection
-
-To verify the system works correctly:
-
-1. **Test Case**: Say different emotional phrases
-2. **Happy phrases**: "I'm so excited!" should detect "excited" or "happy"
-3. **Sad phrases**: "I'm feeling down" should detect "sad" or "depressed"
-4. **Neutral phrases**: "The weather is nice" should detect "neutral"
-
-The system analyzes the text content and context to determine emotions.
-
 ## Notes
 
 - Requires a valid OpenAI API key with sufficient credits
